@@ -1,14 +1,23 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { ItemList } from './AppBar';
-import {Box, Button, Popover} from '@mui/material';
+import { Box, Button, Popover, IconButton } from '@mui/material';
+import AccountCircle from '@mui/icons-material/AccountCircle';
+import AuthPage from '../Auth/AuthPage';
+import Modal from '../../layouts/Modal';
 
 type UserMenuProps = {
 	list: ItemList[];
 };
 
 export default function UserMenu(props: UserMenuProps) {
+	const isAuthorized = true;
 	const { list = [] } = props;
+	const [openAuth, setOpenAuth] = useState<boolean>(false);
 	const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
+
+	const toggleOpenAuth = useCallback(() => {
+		setOpenAuth(oldValue => !oldValue);
+	}, []);
 
 	const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
 		setAnchorEl(event.currentTarget);
@@ -23,9 +32,16 @@ export default function UserMenu(props: UserMenuProps) {
 
 	return (
 		<Box sx={{ ml: 'auto' }}>
-			<Button onClick={handleClick} color='inherit'>
-				Войти
-			</Button>
+			{!isAuthorized && (
+				<Button onClick={toggleOpenAuth} color='inherit'>
+					Войти
+				</Button>
+			)}
+			{!!isAuthorized && (
+				<IconButton size='large' onClick={handleClick} color='inherit'>
+					<AccountCircle />
+				</IconButton>
+			)}
 			<Popover
 				id={id}
 				open={open}

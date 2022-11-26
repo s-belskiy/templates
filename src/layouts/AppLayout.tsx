@@ -1,23 +1,21 @@
 import React from 'react';
 import AppBar from '../components/AppBar/AppBar';
-import { Box, Drawer, CssBaseline, ThemeProvider } from '@mui/material';
+import { CssBaseline, ThemeProvider } from '@mui/material';
 import useTheme from '../themes/useTheme';
 
 type AppLayoutProps = {
-	children: React.ReactNode;
+	children?: React.ReactNode;
+	title?: string;
 };
 
 export default function AppLayout(props: AppLayoutProps) {
-	const { children } = props;
+	const { children, title } = props;
 	const { theme, toggleTheme } = useTheme();
-	console.log('🚀 ~ file: AppLayout.tsx ~ line 13 ~ AppLayout ~ theme', theme);
 	return (
 		<ThemeProvider theme={theme}>
 			<CssBaseline />
-			<Box sx={{ height: '100%' }}>
-				<AppBar toggleTheme={toggleTheme} />
-				{children}
-			</Box>
+			<AppBar title={title} toggleTheme={toggleTheme} />
+			{children}
 		</ThemeProvider>
 	);
 }

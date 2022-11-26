@@ -1,12 +1,51 @@
 import useTheme from './themes/useTheme';
-import { ThemeProvider, CssBaseline, Paper } from '@mui/material';
+import { ThemeProvider, CssBaseline } from '@mui/material';
+import {
+	Route,
+	BrowserRouter as Router,
+	Routes,
+} from 'react-router-dom';
+import AppLayout from './layouts/AppLayout';
 
 export default function App() {
-	const { theme, toggleTheme } = useTheme();
+
+
 	return (
-		<ThemeProvider theme={theme}>
-			<CssBaseline />
-			<Paper sx={{ h: '100%', w: '100%', borderRadius: 0 }}>hello</Paper>
-		</ThemeProvider>
+			<Router>
+				<Routes>
+					<Route
+						path='/'
+						element={
+							<AppLayout>
+								<div>main</div>
+							</AppLayout>
+						}
+					/>
+					<Route
+						path='/new-workout'
+						element={
+							<AppLayout>
+								<div>Create new workout</div>
+							</AppLayout>
+						}
+					/>
+					<Route
+						path='/workouts'
+						element={
+							<AppLayout>
+								<div>Workouts</div>
+							</AppLayout>
+						}
+					/>
+					<Route
+						path='/auth'
+						element={
+							<AppLayout>
+								<div>login</div>
+							</AppLayout>
+						}
+					/>
+				</Routes>
+			</Router>
 	);
 }

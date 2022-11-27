@@ -2,9 +2,8 @@ import {
 	Toolbar,
 	AppBar as MUIAppBar,
 	Typography,
-	Box,
-	Divider,
-	Button,
+	Breadcrumbs,
+	Link,
 } from '@mui/material';
 import { useCallback, useMemo, useState } from 'react';
 import UserMenu from './UserMenu';
@@ -21,14 +20,13 @@ export type ItemList = {
 };
 
 type AppBarProps = {
-	toggleTheme: () => void;
 	title?: string;
 };
 
 export default function AppBar(props: AppBarProps) {
 	const navigate = useNavigate();
 	const location = useLocation();
-	const { toggleTheme, title } = props;
+	const { title } = props;
 	const [openUserProfile, setOpenUserProfile] = useState<boolean>(false);
 
 	const toggleOpenUserProfile = useCallback(() => {
@@ -78,27 +76,27 @@ export default function AppBar(props: AppBarProps) {
 	}, [navigate]);
 
 	return (
-		<MUIAppBar sx={{ position: 'relative' }}>
+		<MUIAppBar sx={{position: 'relative'}}>
 			<Toolbar sx={{ display: 'flex', width: '100%' }}>
 				<BurgerMenu list={BURGER_MENU_LIST} />
-				<Box sx={{ display: 'flex', gap: '1em', alignItems: 'center' }}>
+
+				<Breadcrumbs>
 					{!location.pathname.includes('/main') && (
-						<Button
+						<Link
+							sx={{ cursor: 'pointer' }}
+							underline='hover'
 							color='inherit'
 							onClick={() => navigate('/main')}
-							size='small'
-							variant='text'
 						>
 							На главную
-						</Button>
+						</Link>
 					)}
-					{!location.pathname.includes('/main') && (
-						<Divider orientation='vertical' flexItem />
-					)}
-					{title && <Typography>{title}</Typography>}
-				</Box>
+					{title && <Typography color='text.primary'>{title}</Typography>}
+				</Breadcrumbs>
+
 				<UserMenu toggleOpenUserProfile={toggleOpenUserProfile} />
 			</Toolbar>
+
 			{!!openUserProfile && (
 				<Modal
 					transition
@@ -106,7 +104,7 @@ export default function AppBar(props: AppBarProps) {
 					close={toggleOpenUserProfile}
 					title={'Профиль'}
 				>
-					<UserProfile toggleTheme={toggleTheme} />
+					<UserProfile />
 				</Modal>
 			)}
 		</MUIAppBar>

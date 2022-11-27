@@ -95,7 +95,7 @@ export default function BurgerMenu(props: BurgerMenuProps) {
 				<MenuIcon />
 			</IconButton>
 			<Drawer anchor='left' onClose={() => toggleOpenDrawer(false)} open={open}>
-				<Box sx={{ width: 250, p: '.5em' }}>
+				<Box sx={{ width: 250 }}>
 					<List
 						subheader={
 							<ListSubheader component='div'>Меню навигации</ListSubheader>

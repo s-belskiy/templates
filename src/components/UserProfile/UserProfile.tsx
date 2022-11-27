@@ -1,15 +1,9 @@
-import {
-	Box,
-	Button,
-	Typography,
-	TextField,
-	IconButton,
-	useTheme,
-} from '@mui/material';
+import { Box, Button, Typography, TextField, IconButton } from '@mui/material';
 import { Check, Close } from '@mui/icons-material';
 import { useCallback, useState, useMemo } from 'react';
 import Modal from '../../layouts/Modal';
 import { useNavigate } from 'react-router-dom';
+import useTheme from '../../themes/useTheme';
 type UserProfileProps = {};
 
 export default function UserProfile(props: UserProfileProps) {
@@ -62,7 +56,10 @@ export default function UserProfile(props: UserProfileProps) {
 					gap: '1em',
 				}}
 			>
-				<Button variant='contained' color='primary'>
+				<Button
+					variant='contained'
+					color='primary'
+				>
 					Сменить тему
 				</Button>
 				{mode !== 'edit' ? (

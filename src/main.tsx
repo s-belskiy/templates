@@ -2,23 +2,20 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
 import './scss/index.scss';
-import { SnackbarProvider } from 'notistack';
-import {
-	createTheme,
-	CssBaseline,
-	ThemeProvider,
-	useTheme,
-} from '@mui/material';
+import { QueryClient, QueryClientProvider } from 'react-query';
 
-const theme = createTheme({ palette: { mode: 'dark' } });
+const queryClient = new QueryClient({
+	defaultOptions: {
+		queries: {
+			refetchOnWindowFocus: false,
+		},
+	},
+});
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
 	<React.StrictMode>
-		<SnackbarProvider maxSnack={5}>
-			<ThemeProvider theme={theme}>
-				<CssBaseline />
-				<App />
-			</ThemeProvider>
-		</SnackbarProvider>
+		<QueryClientProvider client={queryClient}>
+			<App />
+		</QueryClientProvider>
 	</React.StrictMode>
 );

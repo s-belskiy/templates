@@ -9,11 +9,13 @@ import {
 import { Check, Close } from '@mui/icons-material';
 import { useCallback, useState, useMemo } from 'react';
 import Modal from '../../layouts/Modal';
+import { useNavigate } from 'react-router-dom';
 type UserProfileProps = {
 	toggleTheme: () => void;
 };
 
 export default function UserProfile(props: UserProfileProps) {
+	const navigate = useNavigate();
 	const { toggleTheme } = props;
 	const [mode, setMode] = useState<string | undefined>(undefined);
 	const [password, setPassword] = useState<string>('');
@@ -70,7 +72,7 @@ export default function UserProfile(props: UserProfileProps) {
 					<Button
 						variant='contained'
 						onClick={() => toggleMode('edit')}
-						color="error"
+						color='error'
 					>
 						Сменить пароль
 					</Button>
@@ -113,7 +115,7 @@ export default function UserProfile(props: UserProfileProps) {
 				>
 					Удалить аккаунт
 				</Button>
-				<Button color="error">
+				<Button onClick={() => navigate('/auth')} color='error'>
 					Выйти
 				</Button>
 			</Box>

@@ -1,10 +1,12 @@
 import { Box, Typography, Button, TextField } from '@mui/material';
 import { useCallback, useMemo, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 type AuthPageProps = {};
 
 export default function AuthPage(props: AuthPageProps) {
 	const [data, setData] = useState({ username: '', password: '' });
+	const navigate = useNavigate();
 
 	const handleChange = useCallback(
 		(event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -55,6 +57,7 @@ export default function AuthPage(props: AuthPageProps) {
 				/>
 				<Button
 					disabled={isDisabled}
+					onClick={() => navigate('/')}
 					size='large'
 					sx={{ width: '30vw' }}
 					variant='contained'

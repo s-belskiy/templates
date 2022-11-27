@@ -1,7 +1,14 @@
-import { Toolbar, AppBar as MUIAppBar, Typography, Box } from '@mui/material';
+import {
+	Toolbar,
+	AppBar as MUIAppBar,
+	Typography,
+	Box,
+	Divider,
+	Button,
+} from '@mui/material';
 import { useCallback, useMemo, useState } from 'react';
 import UserMenu from './UserMenu';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import BurgerMenu from './BurgerMenu';
 import Modal from '../../layouts/Modal';
 import UserProfile from '../UserProfile/UserProfile';
@@ -20,6 +27,7 @@ type AppBarProps = {
 
 export default function AppBar(props: AppBarProps) {
 	const navigate = useNavigate();
+	const location = useLocation();
 	const { toggleTheme, title } = props;
 	const [openUserProfile, setOpenUserProfile] = useState<boolean>(false);
 
@@ -33,6 +41,11 @@ export default function AppBar(props: AppBarProps) {
 				id: 'main',
 				text: 'Главная',
 				action: () => navigate('/main'),
+			},
+			{
+				id: 'ideas-register',
+				text: 'Реестр идей',
+				action: () => navigate('/ideas-register'),
 			},
 
 			{
@@ -68,7 +81,22 @@ export default function AppBar(props: AppBarProps) {
 		<MUIAppBar sx={{ position: 'relative' }}>
 			<Toolbar sx={{ display: 'flex', width: '100%' }}>
 				<BurgerMenu list={BURGER_MENU_LIST} />
-				{title && <Typography>{title}</Typography>}
+				<Box sx={{ display: 'flex', gap: '1em', alignItems: 'center' }}>
+					{!location.pathname.includes('/main') && (
+						<Button
+							color='inherit'
+							onClick={() => navigate('/main')}
+							size='small'
+							variant='text'
+						>
+							На главную
+						</Button>
+					)}
+					{!location.pathname.includes('/main') && (
+						<Divider orientation='vertical' flexItem />
+					)}
+					{title && <Typography>{title}</Typography>}
+				</Box>
 				<UserMenu toggleOpenUserProfile={toggleOpenUserProfile} />
 			</Toolbar>
 			{!!openUserProfile && (

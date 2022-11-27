@@ -3,14 +3,18 @@ import {
 	RouterProvider,
 	createBrowserRouter,
 } from 'react-router-dom';
+import AuthPage from '../components/Auth/AuthPage';
 import IdeaStatuses from '../components/Catalogs/IdeaStatuses/IdeaStatuses';
 import OfferStatuses from '../components/Catalogs/OfferStatuses/OfferStatuses';
 import Tags from '../components/Catalogs/Tags/Tags';
 import Users from '../components/Catalogs/Users/Users';
+import IdeasRegister from '../components/IdeasRegister/IdeasRegister';
 import Main from '../components/Main/Main';
 
 const router = createBrowserRouter([
 	{ path: '/main', element: <Main /> },
+	{ path: '/auth', element: <AuthPage /> },
+	{ path: '/ideas-register', element: <IdeasRegister /> },
 	{
 		path: '/catalogs',
 		children: [

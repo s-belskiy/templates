@@ -14,6 +14,7 @@ import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import { useCallback, useMemo, useState } from 'react';
 import { useLocation } from 'react-router-dom';
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 
 type BurgerMenuProps = {
 	list: ItemList[];
@@ -98,7 +99,12 @@ export default function BurgerMenu(props: BurgerMenuProps) {
 				<Box sx={{ width: 250 }}>
 					<List
 						subheader={
-							<ListSubheader component='div'>Меню навигации</ListSubheader>
+							<ListSubheader sx={{display: 'flex', width: '100%', alignItems: 'center'}} component='div'>
+								Меню навигации
+								<IconButton sx={{ml: 'auto'}} onClick={() => toggleOpenDrawer(false)}>
+									<ChevronLeftIcon />
+								</IconButton>
+							</ListSubheader>
 						}
 					>
 						{listContent}

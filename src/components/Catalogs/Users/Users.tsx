@@ -1,23 +1,59 @@
+import { useMemo } from 'react';
+import AlertMessage from '../../../layouts/AlertMessage';
 import AppLayout from '../../../layouts/AppLayout';
+import Loader from '../../../layouts/Loader';
+import Modal from '../../../layouts/Modal';
 import SimpleTable from '../../../layouts/SimpleTable';
-import { FAKE_USERS } from './list';
+import useUsers from './useUsers';
 
-const FAKE_COLUMNS = [
+const COLUMNS = [
 	{ id: 'username', title: 'Логин' },
-	{ id: 'lastname', title: 'Фамилия' },
-	{ id: 'firstname', title: 'Имя' },
-	{ id: 'surname', title: 'Отчество' },
-	{ id: 'role', title: 'Роль' },
+	{ id: 'name', title: 'ФИО' },
+	{ id: 'email', title: 'Почтовый адрес' },
+	{ id: 'phone', title: 'Телефон' },
+	{ id: 'website', title: 'Веб сайт' },
 ];
 
 export default function Users(props: {}) {
+	const { usersQuery, selected, toggleSelected } = useUsers({});
+	const { data, isLoading, error, isFetching, refetch } = usersQuery;
+
+	const content = useMemo(() => {
+		if (isLoading) {
+			return <Loader loading={isLoading} />;
+		} else if (error) {
+			return (
+				<AlertMessage
+					action={refetch}
+					variant={'error'}
+					error={JSON.stringify(error)}
+				/>
+			);
+		} else {
+			return (
+				<SimpleTable
+					columns={COLUMNS}
+					handleClick={toggleSelected}
+					list={data}
+					title='Список пользователей'
+				/>
+			);
+		}
+	}, [usersQuery]);
+
 	return (
 		<AppLayout title={'Пользователи'}>
-			<SimpleTable
-				columns={FAKE_COLUMNS}
-				list={FAKE_USERS}
-				title='Список пользователей'
-			/>
+			{content}
+			{selected && (
+				<Modal
+					open={!!selected}
+					maxWidth='sm'
+					close={() => toggleSelected(undefined)}
+					title={'Редактирование пользователя'}
+				>
+					<div>{selected.username}</div>
+				</Modal>
+			)}
 		</AppLayout>
 	);
 }

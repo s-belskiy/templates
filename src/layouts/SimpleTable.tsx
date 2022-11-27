@@ -16,12 +16,14 @@ import {
 } from '@mui/material';
 
 import SearchIcon from '@mui/icons-material/Search';
+import AlertMessage from './AlertMessage';
 
 type SimpleTableProps = {
 	columns?: any[];
 	list?: any[];
 	title?: string;
 	searchable?: boolean;
+	handleClick?: (value: any) => void;
 };
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -35,7 +37,13 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 }));
 
 export default function SimpleTable(props: SimpleTableProps) {
-	const { columns = [], list = [], title, searchable = true } = props;
+	const {
+		columns = [],
+		list = [],
+		title,
+		searchable = true,
+		handleClick,
+	} = props;
 	return (
 		<Box sx={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
 			<Paper
@@ -58,7 +66,10 @@ export default function SimpleTable(props: SimpleTableProps) {
 					</Paper>
 				)}
 			</Paper>
-			<TableContainer sx={{ borderRadius: 0, height: '100%' }} component={Paper}>
+			<TableContainer
+				sx={{ borderRadius: 0, height: '100%' }}
+				component={Paper}
+			>
 				<Table stickyHeader>
 					<TableHead>
 						<TableRow>
@@ -70,21 +81,27 @@ export default function SimpleTable(props: SimpleTableProps) {
 						</TableRow>
 					</TableHead>
 					<TableBody>
-						{list.map(listItem => (
-							<TableRow
-								key={listItem.id}
-								sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-							>
-								{columns.map(column => (
-									<StyledTableCell
-										align={column?.centered ? 'center' : undefined}
-										width={column?.columnWidth || undefined}
-									>
-										{listItem[column.id]}
-									</StyledTableCell>
-								))}
-							</TableRow>
-						))}
+						{!!list.length &&
+							list.map(listItem => (
+								<TableRow
+									hover
+									onClick={() => handleClick && handleClick(listItem)}
+									key={listItem.id}
+									sx={{
+										'&:last-child td, &:last-child th': { border: 0 },
+										cursor: handleClick ? 'pointer' : 'inherit',
+									}}
+								>
+									{columns.map(column => (
+										<StyledTableCell
+											align={column?.centered ? 'center' : undefined}
+											width={column?.columnWidth || undefined}
+										>
+											{listItem[column.id]}
+										</StyledTableCell>
+									))}
+								</TableRow>
+							))}
 					</TableBody>
 				</Table>
 			</TableContainer>

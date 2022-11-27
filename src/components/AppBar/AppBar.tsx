@@ -10,6 +10,7 @@ export type ItemList = {
 	id: string;
 	text: string;
 	action?: () => void;
+	children?: ItemList[];
 };
 
 type AppBarProps = {
@@ -35,39 +36,40 @@ export default function AppBar(props: AppBarProps) {
 			},
 
 			{
-				id: 'workouts',
-				text: 'Тренировки',
-				action: () => navigate('/workouts'),
-			},
-			{
-				id: 'new-workout',
-				text: 'Создать тренировку',
-				action: () => navigate('/new-workout'),
+				id: 'catalogs',
+				text: 'Справочники',
+				children: [
+					{
+						id: 'users',
+						text: 'Пользователи',
+						action: () => navigate('/catalogs/users'),
+					},
+					{
+						id: 'tags',
+						text: 'Теги (технологии)',
+						action: () => navigate('/catalogs/tags'),
+					},
+					{
+						id: 'idea-statuses',
+						text: 'Статусы идей',
+						action: () => navigate('/catalogs/idea-statuses'),
+					},
+					{
+						id: 'offer-statuses',
+						text: 'Статусы идей (предложения заказчику)',
+						action: () => navigate('/catalogs/offer-statuses'),
+					},
+				],
 			},
 		];
 	}, [navigate]);
 
-	const USER_MENU_LIST = useMemo(() => {
-		return [
-			{
-				id: 'profile',
-				text: 'Профиль',
-				action: toggleOpenUserProfile,
-			},
-			{ id: 'theme', text: 'Сменить тему', action: () => toggleTheme() },
-			{
-				id: 'logout',
-				text: 'Выйти',
-			},
-		];
-	}, [toggleTheme, navigate]);
-
 	return (
-		<MUIAppBar>
+		<MUIAppBar sx={{ position: 'relative' }}>
 			<Toolbar sx={{ display: 'flex', width: '100%' }}>
 				<BurgerMenu list={BURGER_MENU_LIST} />
 				{title && <Typography>{title}</Typography>}
-				<UserMenu list={USER_MENU_LIST} />
+				<UserMenu toggleOpenUserProfile={toggleOpenUserProfile} />
 			</Toolbar>
 			{!!openUserProfile && (
 				<Modal
@@ -76,7 +78,7 @@ export default function AppBar(props: AppBarProps) {
 					close={toggleOpenUserProfile}
 					title={'Профиль'}
 				>
-					<UserProfile />
+					<UserProfile toggleTheme={toggleTheme} />
 				</Modal>
 			)}
 		</MUIAppBar>

@@ -8,7 +8,7 @@ export default function NewWorkout(props: NewWorkoutProps) {
 
 	return (
 		<AppLayout title={'Новая тренировка'}>
-			<Box sx={{ p: '10em' }}>New Workout</Box>
+			<Box>New Workout</Box>
 		</AppLayout>
 	);
 }

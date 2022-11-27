@@ -1,10 +1,19 @@
-import { Box, Button, Typography, TextField, IconButton } from '@mui/material';
+import {
+	Box,
+	Button,
+	Typography,
+	TextField,
+	IconButton,
+	useTheme,
+} from '@mui/material';
 import { Check, Close } from '@mui/icons-material';
 import { useCallback, useState, useMemo } from 'react';
 import Modal from '../../layouts/Modal';
+import { useNavigate } from 'react-router-dom';
 type UserProfileProps = {};
 
 export default function UserProfile(props: UserProfileProps) {
+	const navigate = useNavigate();
 	const [mode, setMode] = useState<string | undefined>(undefined);
 	const [password, setPassword] = useState<string>('');
 
@@ -33,15 +42,17 @@ export default function UserProfile(props: UserProfileProps) {
 				display: 'flex',
 				flexDirection: 'column',
 				gap: '1em',
-				height: '15em',
+				height: '20em',
 			}}
 		>
 			<Box sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
 				<Typography variant='subtitle1'>Имя пользователя: admin</Typography>
 				<Typography variant='subtitle1'>
+					Роль пользователя: Администратор
+				</Typography>
+				<Typography variant='subtitle1'>
 					Дата регистрации: 31.05.2022
 				</Typography>
-				<Typography variant='subtitle1'>Количество тренировок: 12</Typography>
 			</Box>
 			<Box
 				sx={{
@@ -51,6 +62,9 @@ export default function UserProfile(props: UserProfileProps) {
 					gap: '1em',
 				}}
 			>
+				<Button variant='contained' color='primary'>
+					Сменить тему
+				</Button>
 				{mode !== 'edit' ? (
 					<Button
 						variant='contained'
@@ -97,6 +111,9 @@ export default function UserProfile(props: UserProfileProps) {
 					color='error'
 				>
 					Удалить аккаунт
+				</Button>
+				<Button onClick={() => navigate('/auth')} color='error'>
+					Выйти
 				</Button>
 			</Box>
 			{mode === 'delete' && (

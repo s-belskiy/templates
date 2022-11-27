@@ -1,7 +1,7 @@
 import React from 'react';
 import AppBar from '../components/AppBar/AppBar';
-import { CssBaseline, ThemeProvider } from '@mui/material';
-import useTheme from '../themes/useTheme';
+import {  Box } from '@mui/material';
+
 
 type AppLayoutProps = {
 	children?: React.ReactNode;
@@ -10,12 +10,11 @@ type AppLayoutProps = {
 
 export default function AppLayout(props: AppLayoutProps) {
 	const { children, title } = props;
-	const { theme, toggleTheme } = useTheme();
+
 	return (
-		<ThemeProvider theme={theme}>
-			<CssBaseline />
-			<AppBar title={title} toggleTheme={toggleTheme} />
-			{children}
-		</ThemeProvider>
+		<Box sx={{display: 'flex', flexDirection: 'column', height: '100%'}}>
+			<AppBar title={title} />
+			<Box sx={{ p: '1em', height: '100%', overflow: 'auto' }}>{children}</Box>
+		</Box>
 	);
 }
